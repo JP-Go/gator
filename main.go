@@ -1,11 +1,14 @@
 package main
 
 import (
+	"database/sql"
 	"fmt"
 	"os"
 
 	"github.com/JP-Go/gator/internal/command"
 	"github.com/JP-Go/gator/internal/config"
+	"github.com/JP-Go/gator/internal/database"
+	_ "github.com/lib/pq"
 )
 
 func main() {
@@ -13,12 +16,13 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	state := command.NewState(&cfg)
+	db, err := sql.Open("postgres", cfg.DBURL)
+	dbQueries := database.New(db)
+	state := command.NewState(cfg, dbQueries)
 	if state == nil {
 		return
 	}
-	cmds := command.NewCommands()
-	cmds.Register("login", command.HandleLogin)
+	cmds := command.RegisterCommands()
 	args := os.Args
 	if len(args) == 1 {
 		fmt.Println("Not enough arguments provided")
@@ -28,4 +32,5 @@ func main() {
 		fmt.Println(err)
 		os.Exit(1)
 	}
+	os.Exit(0)
 }

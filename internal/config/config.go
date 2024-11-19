@@ -18,20 +18,20 @@ func getConfigFilePath(filename string) (string, error) {
 	return configFilePath, nil
 }
 
-func Read() (Config, error) {
+func Read() (*Config, error) {
 	filepath, err := getConfigFilePath(configFilename)
 	if err != nil {
-		return Config{}, err
+		return nil, err
 	}
 	contents, err := os.ReadFile(filepath)
 	if err != nil {
-		return Config{}, err
+		return nil, err
 	}
 	config, err := readFromBytes(contents)
 	if err != nil {
-		return Config{}, err
+		return nil, err
 	}
-	return config, nil
+	return &config, nil
 }
 
 func readFromBytes(contents []byte) (Config, error) {
