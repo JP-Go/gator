@@ -8,5 +8,6 @@ func RegisterCommands() *commands {
 	cmds.Register("users", handleGetUsers)
 	cmds.Register("agg", handleAgg)
 	cmds.Register("addfeed", handleAddFeed)
+	cmds.Register("feeds", handleListFeeds)
 	return cmds
 }
