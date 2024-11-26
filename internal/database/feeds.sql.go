@@ -54,6 +54,42 @@ func (q *Queries) AddFeed(ctx context.Context, arg AddFeedParams) (Feed, error) 
 	return i, err
 }
 
+const findFeedByID = `-- name: FindFeedByID :one
+SELECT id, created_at, updated_at, name, user_id, url FROM feeds WHERE id = $1
+`
+
+func (q *Queries) FindFeedByID(ctx context.Context, id uuid.UUID) (Feed, error) {
+	row := q.db.QueryRowContext(ctx, findFeedByID, id)
+	var i Feed
+	err := row.Scan(
+		&i.ID,
+		&i.CreatedAt,
+		&i.UpdatedAt,
+		&i.Name,
+		&i.UserID,
+		&i.Url,
+	)
+	return i, err
+}
+
+const findFeedByURL = `-- name: FindFeedByURL :one
+SELECT id, created_at, updated_at, name, user_id, url FROM feeds WHERE url = $1
+`
+
+func (q *Queries) FindFeedByURL(ctx context.Context, url string) (Feed, error) {
+	row := q.db.QueryRowContext(ctx, findFeedByURL, url)
+	var i Feed
+	err := row.Scan(
+		&i.ID,
+		&i.CreatedAt,
+		&i.UpdatedAt,
+		&i.Name,
+		&i.UserID,
+		&i.Url,
+	)
+	return i, err
+}
+
 const getFeedsWithUserName = `-- name: GetFeedsWithUserName :many
 SELECT feeds.id, feeds.created_at, feeds.updated_at, feeds.name, feeds.user_id, feeds.url,users.name as user_name FROM feeds
 INNER JOIN users 
