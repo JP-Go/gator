@@ -5,9 +5,9 @@ import (
 	"github.com/JP-Go/gator/internal/database"
 )
 
-func NewState(config *config.Config, queries *database.Queries) *state {
-	return &state{
-		config: config,
-		db:     queries,
+func NewState(config *config.Config, queries *database.Queries) *State {
+	return &State{
+		Config: config,
+		Db:     queries,
 	}
 }

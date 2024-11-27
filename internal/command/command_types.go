@@ -1,11 +1,11 @@
 package command
 
-type command struct {
-	name      string
-	arguments []string
+type Command struct {
+	Name      string
+	Arguments []string
 }
-type commandHandler = func(*state, command) error
+type CommandHandler = func(*State, Command) error
 
-type commands struct {
-	handlers map[string]commandHandler
+type Commands struct {
+	handlers map[string]CommandHandler
 }

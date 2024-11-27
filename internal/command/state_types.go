@@ -5,7 +5,7 @@ import (
 	"github.com/JP-Go/gator/internal/database"
 )
 
-type state struct {
-	config *config.Config
-	db     *database.Queries
+type State struct {
+	Config *config.Config
+	Db     *database.Queries
 }

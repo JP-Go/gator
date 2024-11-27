@@ -6,6 +6,7 @@ import (
 	"os"
 
 	"github.com/JP-Go/gator/internal/command"
+	"github.com/JP-Go/gator/internal/command/handler"
 	"github.com/JP-Go/gator/internal/config"
 	"github.com/JP-Go/gator/internal/database"
 	_ "github.com/lib/pq"
@@ -22,7 +23,7 @@ func main() {
 	if state == nil {
 		return
 	}
-	cmds := command.RegisterCommands()
+	cmds := handler.RegisterCommands()
 	args := os.Args
 	if len(args) == 1 {
 		fmt.Println("Not enough arguments provided")
