@@ -1,20 +1,24 @@
 package handler
 
 import (
-	"context"
 	"fmt"
+	"time"
 
 	"github.com/JP-Go/gator/internal/command"
 )
 
 func handleAgg(s *command.State, cmd command.Command) error {
-
-	feed, err := command.FetchFeed(context.Background(), "https://www.wagslane.dev/index.xml")
-	if err != nil {
-		return fmt.Errorf("Could not fetch feed: %w", err)
+	if len(cmd.Arguments) != 1 {
+		return fmt.Errorf("Invalid number of arguments. Expected 1, got %d", len(cmd.Arguments))
 	}
-	fmt.Println("Feed:")
-	fmt.Printf(" %+v\n", feed)
+	duration, err := time.ParseDuration(cmd.Arguments[0])
+	if err != nil {
+		return err
+	}
+	fmt.Printf("Collecting feeds every %v\n", duration)
+	ticker := time.NewTicker(duration)
 
-	return nil
+	for ; ; <-ticker.C {
+		command.ScrapeFeed(s)
+	}
 }

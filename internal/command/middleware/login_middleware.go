@@ -21,7 +21,7 @@ func MiddlewareLoggedIn(handler HandlerWithUser) command.CommandHandler {
 
 		user, err := s.Db.FindUserByName(ctx, s.Config.CurrentUserName)
 		if errors.Is(err, sql.ErrNoRows) {
-			return internal_errors.ErrFeedNotFound
+			return internal_errors.ErrUserNotRegistered
 		}
 		if err != nil {
 			return err
