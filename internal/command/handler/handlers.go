@@ -17,5 +17,6 @@ func RegisterCommands() *command.Commands {
 	cmds.Register("follow", middleware.MiddlewareLoggedIn(handleFollow))
 	cmds.Register("following", middleware.MiddlewareLoggedIn(handleFollowing))
 	cmds.Register("unfollow", middleware.MiddlewareLoggedIn(handleUnfollow))
+	cmds.Register("browse", middleware.MiddlewareLoggedIn(handleBrowse))
 	return cmds
 }
